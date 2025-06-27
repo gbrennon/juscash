@@ -1,0 +1,94 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore node_modules and Python cache everywhere
+node_modules/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore virtualenvs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Ignore OS junk
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Build output
+.next/
+out/
+dist/
+build/
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# VSCode settings (optional, but common)
+.vscode/
+
+# Poetry
+poetry.lock
+
+# Python env and config
+*.env
+*.env.*
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Scrapy
+.scrapy
+
+# Selenium artifacts
+*.log
+*.tmp
+
+# Jupyter Notebook checkpoints (if used)
+.ipynb_checkpoints
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyright
+.pyright/
+
+# Pyre
+.pyre/
+
+# PyCharm
+.idea/
+
+# Logs
+*.log
