@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from scraper.domain.case import Case
+from scraper.domain.court_case import CourtCase
 
 
 class CourtCaseExtractor(ABC):
@@ -14,7 +14,7 @@ class CourtCaseExtractor(ABC):
     """
 
     @abstractmethod
-    def extract(self) -> list[Case]:
+    def extract(self) -> list[CourtCase]:
         """
         Extract case from the court.
         This method should be implemented by subclasses to define the extraction logic.
