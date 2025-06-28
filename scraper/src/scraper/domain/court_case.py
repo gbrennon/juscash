@@ -3,33 +3,27 @@ Defines data models related to legal cases, including CourtCase and CourtCaseAmo
 """
 
 from dataclasses import dataclass
+from decimal import Decimal
 
 
 @dataclass(frozen=True)
 class CourtCaseAmount:
-    """Represents an amount of money related to a court case.
+    gross_principal: Decimal
+    interest: Decimal
+    lawyer_fees: Decimal
 
-    This class encapsulates the financial details of a court case, including the gross
-    principal, interest and lawyer fees. It provides a property to calculate the total
-    amount by summing these components.
-
-    Attributes:
-        gross_principal (float): The principal amount before any deductions.
-        interest (float): The interest amount applied to the principal.
-        lawyer_fees (float): The fees charged by the lawyer for handling the case.
-    """
-
-    gross_principal: float
-    interest: float
-    lawyer_fees: float
+    def __post_init__(self):
+        """Validate that no field is None."""
+        for field_name, value in [
+            ("gross_principal", self.gross_principal),
+            ("interest", self.interest),
+            ("lawyer_fees", self.lawyer_fees),
+        ]:
+            if value is None:
+                raise ValueError(f"{field_name} cannot be None")
 
     @property
-    def total(self) -> float:
-        """Returns the total amount.
-
-        This property calculates the total amount by summing the gross principal,
-        interest, and lawyer fees.
-        """
+    def total(self) -> Decimal:
         return self.gross_principal + self.interest + self.lawyer_fees
 
 
