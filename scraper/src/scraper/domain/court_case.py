@@ -1,14 +1,16 @@
-"""Defines data models related to legal cases, including Case and CaseAmount."""
+"""
+Defines data models related to legal cases, including CourtCase and CourtCaseAmount.
+"""
 
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
-class CaseAmount:
-    """Represents an amount of money related to a case.
+class CourtCaseAmount:
+    """Represents an amount of money related to a court case.
 
-    This class encapsulates the financial details of a case, including the gross
-    principal, interest, and lawyer fees. It provides a method to calculate the total
+    This class encapsulates the financial details of a court case, including the gross
+    principal, interest and lawyer fees. It provides a property to calculate the total
     amount by summing these components.
 
     Attributes:
@@ -32,15 +34,16 @@ class CaseAmount:
 
 
 @dataclass(frozen=True)
-class Case:
-    """Represents a legal case.
+class CourtCase:
+    """Represents a court case.
 
-    This abstractiong encapsulates the essential details of a legal case, including its
+    This abstractiong encapsulates the essential details of a court case, including its
     unique identifier, name, status, and timestamps for creation and last update.
     """
 
     id: str  # Also known as case_id
     name: str
     status: str
+    amount: CourtCaseAmount
     created_at: str
     updated_at: str
