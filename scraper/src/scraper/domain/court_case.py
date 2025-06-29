@@ -38,6 +38,7 @@ class CourtCase:
     id: str  # Also known as case_id
     name: str
     status: str
+    defendant: str
     amount: CourtCaseAmount
     created_at: str
     updated_at: str
