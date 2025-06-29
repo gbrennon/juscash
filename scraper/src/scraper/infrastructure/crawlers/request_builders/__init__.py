@@ -1,6 +1,6 @@
 from .case_search_request_builder import (
     CaseSearchRequestBuilder,
-    CourtCaseExtractorFilters,
+    CourtCaseSearchFilters,
 )
 
-__all__ = ["CaseSearchRequestBuilder", "CourtCaseExtractorFilters"]
+__all__ = ["CaseSearchRequestBuilder", "CourtCaseSearchFilters"]

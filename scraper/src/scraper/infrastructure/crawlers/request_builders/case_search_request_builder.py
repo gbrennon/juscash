@@ -6,7 +6,7 @@ BASE_URL = "https://dje.tjsp.jus.br/cdje/consultaAvancada.do"
 
 
 @dataclass(frozen=True)
-class CourtCaseExtractorFilters:
+class CourtCaseSearchFilters:
     """Filters for court case extraction."""
 
     start_date: datetime | None = None
@@ -18,7 +18,7 @@ class CourtCaseExtractorFilters:
 class CaseSearchRequestBuilder:
     """Builds POST requests for court case searches."""
 
-    def build(self, filters: CourtCaseExtractorFilters) -> dict[str, Any]:
+    def build(self, filters: CourtCaseSearchFilters) -> dict[str, Any]:
         """
         Build POST request data for court search.
 
