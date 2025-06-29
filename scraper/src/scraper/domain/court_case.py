@@ -5,6 +5,7 @@ Defines data models related to legal cases, including CourtCase and CourtCaseAmo
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
+from enum import StrEnum
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,14 @@ class CourtCaseAmount:
         return self.gross_principal + self.interest + self.lawyer_fees
 
 
+class CourtCaseStatus(StrEnum):
+    """Enumeration for court case statuses."""
+
+    NEW = "new"
+    READ = "read"
+    PROCESSED = "processed"
+
+
 @dataclass(frozen=True)
 class CourtCase:
     """Represents a court case.
@@ -38,7 +47,7 @@ class CourtCase:
 
     id: str  # Also known as case_id
     name: str
-    status: str
     defendant: str
-    amount: CourtCaseAmount
     published_at: date
+    status: CourtCaseStatus
+    amount: CourtCaseAmount
