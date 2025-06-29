@@ -3,6 +3,7 @@ Defines data models related to legal cases, including CourtCase and CourtCaseAmo
 """
 
 from dataclasses import dataclass
+from datetime import date
 from decimal import Decimal
 
 
@@ -40,5 +41,4 @@ class CourtCase:
     status: str
     defendant: str
     amount: CourtCaseAmount
-    created_at: str
-    updated_at: str
+    published_at: date
