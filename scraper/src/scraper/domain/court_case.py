@@ -3,7 +3,7 @@ Defines data models related to legal cases, including CourtCase and CourtCaseAmo
 """
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
 
@@ -47,7 +47,7 @@ class CourtCase:
 
     id: str  # Also known as case_id
     name: str
-    defendant: str
-    published_at: date
+    lawyers: list[str]
+    published_at: datetime
     status: CourtCaseStatus
     amount: CourtCaseAmount
