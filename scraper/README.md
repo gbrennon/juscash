@@ -53,7 +53,7 @@ poetry run alembic revision --autogenerate -m "Initial migration"
 
 ### Applying Migrations
 ```bash
-poetry run alembic upgrade head
+poetry run alembic -c scraper/alembic.ini upgrade head
 ```
 
 ## Development
