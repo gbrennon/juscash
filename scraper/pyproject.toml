@@ -10,6 +10,7 @@ packages = [{include = "scraper", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
+scrapy = "^2.13.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.12.1"
