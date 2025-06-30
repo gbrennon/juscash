@@ -41,6 +41,33 @@ services:
       - ./logs:/app/logs
     restart: "no"
 
+  scraper:
+    build:
+      context: .
+      dockerfile: scraper/Dockerfile
+    container_name: scraper_app
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: jus_db
+      DB_USER: jus_user
+      DB_PASSWORD: jus_password
+      DB_ECHO: "false"
+      DB_POOL_SIZE: 10
+      DB_MAX_OVERFLOW: 20
+      LOG_LEVEL: INFO
+      DATABASE_URL: postgresql+asyncpg://jus_user:jus_password@postgres:5432/jus_db
+      PYTHONPATH: /app/src
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - ./scraper:/app
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
 
 volumes:
   postgres_data:
