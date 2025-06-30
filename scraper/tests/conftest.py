@@ -1,7 +1,6 @@
 from collections.abc import AsyncGenerator
 
 import pytest
-import pytest_asyncio
 import vcr
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -17,7 +16,7 @@ from scraper.infrastructure.persistence.models.base import Base
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest.fixture(scope="session")
 async def engine() -> AsyncGenerator[AsyncEngine, None]:
     """Create engine and setup database."""
     engine = create_async_engine(
@@ -34,7 +33,7 @@ async def engine() -> AsyncGenerator[AsyncEngine, None]:
     await engine.dispose()
 
 
-@pytest_asyncio.fixture
+@pytest.fixture
 async def async_session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None]:
     """🪄 Automagic database: creates, migrates, provides session, resets after test."""
     connection = await engine.connect()

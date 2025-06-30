@@ -8,20 +8,20 @@ license = "MIT"
 repository = "https://github.com/gbrennon/scraper"
 documentation = "https://github.com/gbrennon/scraper#readme"
 keywords = ["scraping", "toolkit", "framework-agnostic", "async", "clean-architecture", "ddd"]
-packages = [{include = "scraper", from = "src"}]
+packages = [{ include = "scraper", from = "src" }]
 include = ["src/scraper/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "3.12.3"
 scrapy = "^2.13.2"
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.41"}
+sqlalchemy = { extras = ["asyncio"], version = "^2.0.41" }
 alembic = "^1.16.2"
 asyncpg = "^0.30.0"
 psycopg2-binary = "^2.9.10"
 beautifulsoup4 = "^4.13.4"
 aiohttp = "^3.12.13"
 httpx = "^0.28.1"
-crawlee = {extras = ["all"], version = "^0.6.11"}
+crawlee = { extras = ["all"], version = "^0.6.11" }
 yarl = "^1.9.4"
 loguru = "^0.7.2"
 structlog = "^24.1.0"
@@ -88,23 +88,36 @@ show_error_codes = true
 pretty = true
 
 [[tool.mypy.overrides]]
-module = ["requests.*", "beautifulsoup4.*", "selenium.*", "crawlee.*", "loguru.*", "structlog.*", "yarl.*"]
+module = [
+    "requests.*",
+    "beautifulsoup4.*",
+    "selenium.*",
+    "crawlee.*",
+    "loguru.*",
+    "structlog.*",
+    "yarl.*"
+]
 ignore_missing_imports = true
 
 # --- Pytest Configuration ---
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --cov=src/scraper --cov-report=term-missing"
+addopts = [
+    "-ra",
+    "-q",
+    "--cov=src/scraper",
+    "--cov-report=term-missing",
+    "--strict-markers"
+]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 filterwarnings = [
     "ignore::DeprecationWarning",
-    "ignore::PendingDeprecationWarning",
+    "ignore::PendingDeprecationWarning"
 ]
 markers = [
-    "integration: integration tests that may hit external services",
-    "unit: fast unit tests",
-    "slow: slow running tests",
+    "unit: marks tests as unit tests (fast, isolated, no IO)",
+    "integration: marks tests as integration tests (interact with external services)"
 ]
 
 # --- Coverage Configuration ---
@@ -121,7 +134,7 @@ omit = [
     "src/**/settings.py",
     ".venv/*",
     "build/*",
-    "dist/*",
+    "dist/*"
 ]
 show_missing = true
 skip_covered = true
