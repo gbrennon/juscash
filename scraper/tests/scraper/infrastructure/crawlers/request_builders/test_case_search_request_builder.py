@@ -1,15 +1,18 @@
 from datetime import datetime
+
+import pytest
+
 from scraper.infrastructure.crawlers.request_builders import (
     CaseSearchRequestBuilder,
-    CourtCaseSearchFilters
+    CourtCaseSearchFilters,
 )
 
+
+@pytest.mark.integration
 class TestCaseSearchRequestBuilder:
     def test_build_when_start_date_is_set_then_str_start_date_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseSearchFilters(
-            start_date=datetime(2023, 1, 1)
-        )
+        filters = CourtCaseSearchFilters(start_date=datetime(2023, 1, 1))
 
         request = builder.build(filters)
 
@@ -17,9 +20,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_end_date_is_set_then_str_end_date_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseSearchFilters(
-            end_date=datetime(2023, 2, 5)
-        )
+        filters = CourtCaseSearchFilters(end_date=datetime(2023, 2, 5))
 
         request = builder.build(filters)
 
@@ -37,9 +38,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_search_terms_is_set_then_str_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseSearchFilters(
-            search_terms="test search"
-        )
+        filters = CourtCaseSearchFilters(search_terms="test search")
 
         request = builder.build(filters)
 
@@ -63,7 +62,7 @@ class TestCaseSearchRequestBuilder:
             start_date=datetime(2023, 1, 1),
             end_date=datetime(2023, 2, 5),
             section_id=123,
-            search_terms="test search"
+            search_terms="test search",
         )
 
         request = builder.build(filters)

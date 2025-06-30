@@ -14,7 +14,7 @@ class TestExtractAndPersistCourtDataService:
     @pytest.mark.asyncio
     async def test_execute_when_extract_returns_empty_list_then_save_is_not_called(
         self,
-    ):
+    ) -> None:
         # Arrange
         mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
         mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
@@ -33,7 +33,7 @@ class TestExtractAndPersistCourtDataService:
     @pytest.mark.asyncio
     async def test_execute_when_extract_returns_cases_then_calls_save_for_each_case(
         self,
-    ):
+    ) -> None:
         # Arrange
         mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
         mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
@@ -60,7 +60,7 @@ class TestExtractAndPersistCourtDataService:
     @pytest.mark.asyncio
     async def test_execute_when_extractor_raises_exception_then_let_it_raise(
         self,
-    ):
+    ) -> None:
         # Arrange
         mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
         mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
@@ -77,7 +77,7 @@ class TestExtractAndPersistCourtDataService:
     @pytest.mark.asyncio
     async def test_execute_when_repository_raises_exception_then_let_it_raise(
         self,
-    ):
+    ) -> None:
         # Arrange
         mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
         mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
