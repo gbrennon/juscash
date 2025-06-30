@@ -45,6 +45,7 @@ faker = "^25.8.0"
 tox = "^4.15.0"
 coverage = "^7.5.3"
 vcrpy = "^7.0.0"
+pytest-vcr = "^1.0.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -131,13 +132,14 @@ omit = [
     "scripts/*",
     "src/**/__init__.py",
     "src/**/migrations/*",
-    "src/**/settings.py",
+    "src/scraper/application/ports/*",
+    "src/scraper/domain/ports/*",
     ".venv/*",
     "build/*",
     "dist/*"
 ]
 show_missing = true
-skip_covered = true
+skip_covered = false
 
 # --- pre-commit hook configuration (for reference) ---
 # Run:
