@@ -51,3 +51,8 @@ class CourtCase:
     published_at: datetime
     status: CourtCaseStatus
     amount: CourtCaseAmount
+
+    @property
+    def case_id(self) -> str:
+        """Alias for id."""
+        return self.id
