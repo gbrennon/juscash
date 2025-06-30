@@ -1,12 +1,15 @@
-# pyproject.toml
-
 [tool.poetry]
 name = "scraper"
 version = "0.1.0"
-description = ""
+description = "A robust, framework-agnostic scraping toolkit/library built with a focus on clean architecture and extensibility."
 authors = ["Glauber Brennon <glauberbrennon@gmail.com>"]
 readme = "README.md"
+license = "MIT"
+repository = "https://github.com/gbrennon/scraper"
+documentation = "https://github.com/gbrennon/scraper#readme"
+keywords = ["scraping", "toolkit", "framework-agnostic", "async", "clean-architecture", "ddd"]
 packages = [{include = "scraper", from = "src"}]
+include = ["src/scraper/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -18,11 +21,15 @@ psycopg2-binary = "^2.9.10"
 beautifulsoup4 = "^4.13.4"
 aiohttp = "^3.12.13"
 httpx = "^0.28.1"
-asyncio = "^3.4.3"
 crawlee = {extras = ["all"], version = "^0.6.11"}
+yarl = "^1.9.4"
+loguru = "^0.7.2"
+structlog = "^24.1.0"
+pydantic = "^2.7.3"
+typing-extensions = "^4.12.1"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.12.1"
+ruff = "^0.4.8"
 mypy = "^1.16.1"
 pre-commit = "^4.0.0"
 pytest = "^8.4.1"
@@ -32,6 +39,12 @@ freezegun = "^1.5.2"
 pytest-cov = "^6.2.1"
 factory-boy = "^3.3.3"
 types-beautifulsoup4 = "^4.12.0.20250516"
+pytest-xdist = "^3.6.1"
+pytest-mock = "^3.14.0"
+faker = "^25.8.0"
+tox = "^4.15.0"
+coverage = "^7.5.3"
+vcrpy = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -39,36 +52,82 @@ build-backend = "poetry.core.masonry.api"
 
 # --- Ruff Configuration ---
 [tool.ruff]
-line-length = 88
+line-length = 100
 target-version = "py312"
+src = ["src"]
 exclude = [
     ".venv",
     "__pycache__",
     "build",
     "dist",
-    "tests",
+    "tests/integration/testdata/",
     "scripts",
     "src/scraper/infrastructure/scraping/"
 ]
 
 [tool.ruff.lint]
-select = ["E", "W", "F", "I", "UP", "B"]
-ignore = ["E501"]
+select = ["E", "W", "F", "I", "UP", "B", "C90", "RUF"]
+ignore = ["E501", "B008"]
+fixable = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "scripts/*" = ["F401"]  # Allow unused imports in scripts
+"tests/*" = ["D", "S101", "PLR2004", "PLR0913"]  # Ignore docstring, assert, literal, and arg count checks in tests
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 # --- MyPy Configuration ---
 [tool.mypy]
 python_version = "3.12"
 strict = true
 exclude = [".venv/", "__pycache__/"]
+mypy_path = "src"
+show_error_codes = true
+pretty = true
 
 [[tool.mypy.overrides]]
-module = ["requests.*", "beautifulsoup4.*", "selenium.*"]
+module = ["requests.*", "beautifulsoup4.*", "selenium.*", "crawlee.*", "loguru.*", "structlog.*", "yarl.*"]
 ignore_missing_imports = true
 
-# Setup commands:
+# --- Pytest Configuration ---
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=src/scraper --cov-report=term-missing"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+markers = [
+    "integration: integration tests that may hit external services",
+    "unit: fast unit tests",
+    "slow: slow running tests",
+]
+
+# --- Coverage Configuration ---
+[tool.coverage.run]
+branch = true
+source = ["src/scraper"]
+
+[tool.coverage.report]
+omit = [
+    "tests/*",
+    "scripts/*",
+    "src/**/__init__.py",
+    "src/**/migrations/*",
+    "src/**/settings.py",
+    ".venv/*",
+    "build/*",
+    "dist/*",
+]
+show_missing = true
+skip_covered = true
+
+# --- pre-commit hook configuration (for reference) ---
+# Run:
 # poetry install
 # poetry run pre-commit install
 #
@@ -76,3 +135,4 @@ ignore_missing_imports = true
 # poetry run ruff format .
 # poetry run ruff check .
 # poetry run mypy .
+# poetry run pytest

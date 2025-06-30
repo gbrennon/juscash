@@ -2,6 +2,7 @@ from collections.abc import AsyncGenerator
 
 import pytest
 import pytest_asyncio
+import vcr
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -58,12 +59,24 @@ async def async_session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, Non
 @pytest.fixture(scope="session")
 def event_loop():
     import asyncio
+
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
 
 
-# Usage:
-# async def test_something(db: AsyncSession):
-#     # Database is automatically setup and reset after test!
-#     pass
+# Configure VCR for async HTTP libraries
+vcr_config = vcr.VCR(
+    serializer="yaml",
+    cassette_library_dir="tests/fixtures/vcr_cassettes",
+    record_mode="once",  # Record once, then replay
+    match_on=["uri", "method"],
+    filter_headers=["authorization", "user-agent"],  # Don't record sensitive headers
+    decode_compressed_response=True,
+)
+
+
+@pytest.fixture
+def vcr_cassette():
+    """Fixture to provide VCR cassette functionality"""
+    return vcr_config
