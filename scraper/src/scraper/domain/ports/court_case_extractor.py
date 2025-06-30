@@ -51,7 +51,7 @@ class CourtCaseExtractor(ABC):
     """
 
     @abstractmethod
-    def extract(self, filters: CourtCaseExtractorFilters) -> list[CourtCase]:
+    async def extract(self, filters: CourtCaseExtractorFilters) -> list[CourtCase]:
         """
         Extract case from the court.
         This method should be implemented by subclasses to define the extraction logic.

@@ -14,7 +14,7 @@ class CourtCaseRepository(ABC):
     """
 
     @abstractmethod
-    def save(self, court_case: CourtCase) -> None:
+    async def save(self, court_case: CourtCase) -> None:
         """Saves a case to the repository.
 
         :param case: The case to save.

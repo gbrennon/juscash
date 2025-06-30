@@ -11,12 +11,13 @@ from scraper.domain.ports.court_case_repository import CourtCaseRepository
 
 
 class TestExtractAndPersistCourtDataService:
-    def test_execute_when_extract_returns_empty_list_then_save_is_not_called(
+    @pytest.mark.asyncio
+    async def test_execute_when_extract_returns_empty_list_then_save_is_not_called(
         self,
     ):
         # Arrange
-        mock_court_case_extractor = mock.Mock(spec=CourtCaseExtractor)
-        mock_court_case_repository = mock.Mock(spec=CourtCaseRepository)
+        mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
+        mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
         mock_court_case_extractor.extract.return_value = []
         service = ExtractAndPersistCourtDataService(
             court_case_extractor=mock_court_case_extractor,
@@ -24,20 +25,21 @@ class TestExtractAndPersistCourtDataService:
         )
 
         # Act
-        service.execute()
+        await service.execute()
 
         # Assert
         mock_court_case_repository.save.assert_not_called()
 
-    def test_execute_when_extract_returns_cases_then_calls_save_for_each_case(
+    @pytest.mark.asyncio
+    async def test_execute_when_extract_returns_cases_then_calls_save_for_each_case(
         self,
     ):
         # Arrange
-        mock_court_case_extractor = mock.Mock(spec=CourtCaseExtractor)
-        mock_court_case_repository = mock.Mock(spec=CourtCaseRepository)
+        mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
+        mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
         mock_cases = [
-            mock.Mock(spec=CourtCase),
-            mock.Mock(spec=CourtCase),
+            mock.AsyncMock(spec=CourtCase),
+            mock.AsyncMock(spec=CourtCase),
         ]
         mock_court_case_extractor.extract.return_value = mock_cases
         service = ExtractAndPersistCourtDataService(
@@ -46,7 +48,7 @@ class TestExtractAndPersistCourtDataService:
         )
 
         # Act
-        service.execute()
+        await service.execute()
 
         # Assert
         expected_call_args = [
@@ -55,12 +57,13 @@ class TestExtractAndPersistCourtDataService:
         ]
         mock_court_case_repository.save.assert_has_calls(expected_call_args)
 
-    def test_execute_when_extractor_raises_exception_then_let_it_raise(
+    @pytest.mark.asyncio
+    async def test_execute_when_extractor_raises_exception_then_let_it_raise(
         self,
     ):
         # Arrange
-        mock_court_case_extractor = mock.Mock(spec=CourtCaseExtractor)
-        mock_court_case_repository = mock.Mock(spec=CourtCaseRepository)
+        mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
+        mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
         mock_court_case_extractor.extract.side_effect = Exception("Extraction failed")
         service = ExtractAndPersistCourtDataService(
             court_case_extractor=mock_court_case_extractor,
@@ -69,17 +72,18 @@ class TestExtractAndPersistCourtDataService:
 
         # Act & Assert
         with pytest.raises(Exception) as _:
-            service.execute()
+            await service.execute()
 
-    def test_execute_when_repository_raises_exception_then_let_it_raise(
+    @pytest.mark.asyncio
+    async def test_execute_when_repository_raises_exception_then_let_it_raise(
         self,
     ):
         # Arrange
-        mock_court_case_extractor = mock.Mock(spec=CourtCaseExtractor)
-        mock_court_case_repository = mock.Mock(spec=CourtCaseRepository)
+        mock_court_case_extractor = mock.AsyncMock(spec=CourtCaseExtractor)
+        mock_court_case_repository = mock.AsyncMock(spec=CourtCaseRepository)
         mock_cases = [
-            mock.Mock(spec=CourtCase),
-            mock.Mock(spec=CourtCase),
+            mock.AsyncMock(spec=CourtCase),
+            mock.AsyncMock(spec=CourtCase),
         ]
         mock_court_case_extractor.extract.return_value = mock_cases
         mock_court_case_repository.save.side_effect = Exception("Save failed")
@@ -90,4 +94,4 @@ class TestExtractAndPersistCourtDataService:
 
         # Act & Assert
         with pytest.raises(Exception) as _:
-            service.execute()
+            await service.execute()
