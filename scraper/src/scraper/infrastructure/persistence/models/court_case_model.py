@@ -21,7 +21,9 @@ class CourtCaseModel(BaseModel[CourtCase]):
 
     id: Mapped[str] = mapped_column(primary_key=True, unique=True)
     name: Mapped[str] = mapped_column(nullable=False, index=True)
-    lawyers: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=lambda: [])
+    lawyers: Mapped[list[str]] = mapped_column(
+        JSON, nullable=False, default=lambda: list[datetime]()
+    )
     published_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
@@ -34,15 +36,9 @@ class CourtCaseModel(BaseModel[CourtCase]):
         index=True,
         default=CourtCaseStatus.NEW,
     )
-    gross_principal: Mapped[Decimal] = mapped_column(
-        Numeric(precision=18, scale=2), nullable=False
-    )
-    interest: Mapped[Decimal] = mapped_column(
-        Numeric(precision=18, scale=2), nullable=False
-    )
-    lawyer_fees: Mapped[Decimal] = mapped_column(
-        Numeric(precision=18, scale=2), nullable=False
-    )
+    gross_principal: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
+    interest: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
+    lawyer_fees: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
 
     def to_entity(self) -> CourtCase:
         """Convert the model instance to a domain entity object."""
