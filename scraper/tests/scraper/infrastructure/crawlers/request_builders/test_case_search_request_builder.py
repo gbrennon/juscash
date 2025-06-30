@@ -1,13 +1,13 @@
 from datetime import datetime
 from scraper.infrastructure.crawlers.request_builders import (
     CaseSearchRequestBuilder,
-    CourtCaseExtractorFilters
+    CourtCaseSearchFilters
 )
 
 class TestCaseSearchRequestBuilder:
     def test_build_when_start_date_is_set_then_str_start_date_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters(
+        filters = CourtCaseSearchFilters(
             start_date=datetime(2023, 1, 1)
         )
 
@@ -17,7 +17,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_end_date_is_set_then_str_end_date_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters(
+        filters = CourtCaseSearchFilters(
             end_date=datetime(2023, 2, 5)
         )
 
@@ -27,7 +27,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_section_id_is_set_then_int_is_casted(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters(
+        filters = CourtCaseSearchFilters(
             section_id=123  # use integer, as expected by the dataclass
         )
 
@@ -37,7 +37,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_search_terms_is_set_then_str_is_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters(
+        filters = CourtCaseSearchFilters(
             search_terms="test search"
         )
 
@@ -47,7 +47,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_no_filters_then_only_pagina_set_and_as_empty_string(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters()
+        filters = CourtCaseSearchFilters()
 
         request = builder.build(filters)
 
@@ -59,7 +59,7 @@ class TestCaseSearchRequestBuilder:
 
     def test_build_when_all_filters_then_all_included(self):
         builder = CaseSearchRequestBuilder()
-        filters = CourtCaseExtractorFilters(
+        filters = CourtCaseSearchFilters(
             start_date=datetime(2023, 1, 1),
             end_date=datetime(2023, 2, 5),
             section_id=123,
