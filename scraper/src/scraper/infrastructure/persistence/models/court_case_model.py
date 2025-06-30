@@ -21,9 +21,7 @@ class CourtCaseModel(BaseModel[CourtCase]):
 
     id: Mapped[str] = mapped_column(primary_key=True, unique=True)
     name: Mapped[str] = mapped_column(nullable=False, index=True)
-    lawyers: Mapped[list[str]] = mapped_column(
-        JSON, nullable=False, default=lambda: []
-    )  # ✅ Fixed
+    lawyers: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=lambda: [])
     published_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
