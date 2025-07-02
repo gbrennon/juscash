@@ -2,11 +2,11 @@
 
 from abc import ABC, abstractmethod
 
-from scraper.domain.case import Case
+from scraper.domain.court_case import CourtCase
 
 
-class CaseRepository(ABC):
-    """Abstract base class for a case repository.
+class CourtCaseRepository(ABC):
+    """Abstract base class for a court case repository.
 
     This class defines the interface for a case repository, which is responsible for
     saving and retrieving cases. It is intended to be implemented by concrete classes
@@ -14,7 +14,7 @@ class CaseRepository(ABC):
     """
 
     @abstractmethod
-    def save(self, case: Case) -> None:
+    async def save(self, court_case: CourtCase) -> None:
         """Saves a case to the repository.
 
         :param case: The case to save.

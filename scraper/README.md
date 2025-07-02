@@ -44,7 +44,16 @@ scraper = Scraper()
 poetry shell
 
 # Run your scraper script
-python src/scraper/main.py
+```
+
+### Generating Migrations
+```bash
+poetry run alembic revision --autogenerate -m "Initial migration"
+```
+
+### Applying Migrations
+```bash
+poetry run alembic -c scraper/alembic.ini upgrade head
 ```
 
 ## Development

@@ -1,0 +1,23 @@
+{
+  "id": "HNZGFLxeBynABeX",
+  "unique_key": "https://dje.tjsp.jus.br/cdje/consultaavancada.do?pagina=1",
+  "order_no": null,
+  "handled_at": "2025-07-02 01:26:47.796674+00:00",
+  "request": {
+    "url": "https://dje.tjsp.jus.br/cdje/consultaAvancada.do?pagina=1",
+    "method": "GET",
+    "headers": {},
+    "payload": null,
+    "user_data": {
+      "__crawlee": {
+        "state": 3
+      }
+    },
+    "retry_count": 0,
+    "no_retry": false,
+    "loaded_url": "https://dje.tjsp.jus.br/cdje/consultaAvancada.do?pagina=1",
+    "handled_at": "2025-07-02 01:26:47.796674+00:00",
+    "unique_key": "https://dje.tjsp.jus.br/cdje/consultaavancada.do?pagina=1",
+    "id": "HNZGFLxeBynABeX"
+  }
+}
