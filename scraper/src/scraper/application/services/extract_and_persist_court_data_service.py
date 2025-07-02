@@ -1,9 +1,9 @@
 from scraper.application.ports.extract_and_persist_court_data_use_case import (
     ExtractAndPersistCourtDataUseCase,
+    ExtractAndPersistFilterRequest,
 )
 from scraper.domain.ports.court_case_extractor import (
     CourtCaseExtractor,
-    CourtCaseExtractorFilters,
 )
 from scraper.domain.ports.court_case_repository import CourtCaseRepository
 
@@ -27,19 +27,12 @@ class ExtractAndPersistCourtDataService(ExtractAndPersistCourtDataUseCase):
         self.court_data_extractor = court_case_extractor
         self.court_case_repository = court_case_repository
 
-    async def execute(self) -> None:
+    async def execute(self, filters: ExtractAndPersistFilterRequest) -> None:
         """
         Extracts court data for a given case ID and persists it.
         """
-        filters = CourtCaseExtractorFilters.from_raw(
-            {
-                "start_date": "2025-06-01",
-                "end_date": "2025-06-29",
-                "section_id": 123,
-                "search_terms": "important",
-            }
-        )
         court_cases = await self.court_data_extractor.extract(filters)
+        print(f"Extracted {len(court_cases)} court cases.")
 
         for court_case in court_cases:
             await self.court_case_repository.save(court_case)

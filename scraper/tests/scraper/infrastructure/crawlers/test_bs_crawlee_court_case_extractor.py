@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import pytest
-import vcr
 
 from scraper.domain.court_case import CourtCaseStatus
 from scraper.domain.ports.court_case_extractor import CourtCaseExtractorFilters
@@ -15,7 +14,7 @@ class TestBsCrawleeCourtCaseExtractor:
     """Integration tests using VCR to record/replay HTTP interactions"""
 
     @pytest.mark.asyncio
-    @vcr.use_cassette("tests/fixtures/vcr_cassettes/court_case_extraction.yaml")
+    @pytest.mark.vcr()
     async def test_extract_when_filters_provided_then_returns_court_cases(self):
         # Arrange
         search_terms = '"RPV"+e+"pagamento+pelo+INSS"'
@@ -44,7 +43,7 @@ class TestBsCrawleeCourtCaseExtractor:
             assert isinstance(case.lawyers, list)
 
     @pytest.mark.asyncio
-    @vcr.use_cassette("tests/fixtures/vcr_cassettes/court_case_extraction_empty.yaml")
+    @pytest.mark.vcr()
     async def test_extract_when_no_cases_found_then_returns_empty_list(self):
         # Arrange
         extractor = BsCrawleeCourtCaseExtractor()
@@ -62,7 +61,7 @@ class TestBsCrawleeCourtCaseExtractor:
         assert len(result) == 0
 
     @pytest.mark.asyncio
-    @vcr.use_cassette("tests/fixtures/vcr_cassettes/court_case_extraction_no_filters.yaml")
+    @pytest.mark.vcr()
     async def test_extract_when_no_filters_then_uses_defaults_and_returns_cases(self):
         # Arrange
         extractor = BsCrawleeCourtCaseExtractor()

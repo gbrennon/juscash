@@ -47,6 +47,7 @@ class CourtCase:
 
     id: str  # Also known as case_id
     name: str
+    content: str
     lawyers: list[str]
     published_at: datetime
     status: CourtCaseStatus

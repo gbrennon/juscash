@@ -12,9 +12,9 @@ packages = [{ include = "scraper", from = "src" }]
 include = ["src/scraper/py.typed"]
 
 [tool.poetry.dependencies]
-python = "3.12.3"
+python = "^3.12"
 scrapy = "^2.13.2"
-sqlalchemy = { extras = ["asyncio"], version = "^2.0.41" }
+sqlalchemy = {extras = ["all"], version = "^2.0.41"}
 alembic = "^1.16.2"
 asyncpg = "^0.30.0"
 psycopg2-binary = "^2.9.10"
@@ -27,6 +27,10 @@ loguru = "^0.7.2"
 structlog = "^24.1.0"
 pydantic = "^2.7.3"
 typing-extensions = "^4.12.1"
+typer = "^0.16.0"
+click = "^8.2.1"
+pdfminer-six = "^20250506"
+pypdf2 = "^3.0.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.8"
@@ -50,6 +54,9 @@ pytest-vcr = "^1.0.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+scraper = "scraper.presentation.cli:app"
 
 # --- Ruff Configuration ---
 [tool.ruff]

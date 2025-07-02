@@ -11,22 +11,20 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VENV_IN_PROJECT=1 \
     PYTHONPATH=/app
 
-# Create app user/group early
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Install system deps and Poetry
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         gcc \
         libc6-dev \
         curl \
+        cron \
     && curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION \
     && ln -s $POETRY_HOME/bin/poetry /usr/local/bin/poetry \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install dependencies first for better cache usage
 COPY --chown=appuser:appuser scraper/pyproject.toml scraper/poetry.lock ./
 COPY --chown=appuser:appuser scraper/alembic.ini ./
 
@@ -34,15 +32,19 @@ RUN poetry config virtualenvs.create false \
     && poetry install --only=main --no-dev \
     && rm -rf $POETRY_CACHE_DIR
 
-# Copy application code
+RUN playwright install --with-deps
+
 COPY --chown=appuser:appuser scraper/ ./
 
-# Create logs directory as the correct user
-RUN mkdir -p logs
+COPY --chown=appuser:appuser scraper/cron/cronjob /etc/cron.d/scraper-cron
 
-USER appuser
+RUN chmod 0644 /etc/cron.d/scraper-cron \
+    && crontab /etc/cron.d/scraper-cron \
+    && mkdir -p logs \
+    && touch /var/log/cron.log
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD python -c "import asyncio; import sys; sys.exit(0)"
 
-CMD ["python", "src/main.py"]
+COPY --chown=appuser:appuser scraper/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh

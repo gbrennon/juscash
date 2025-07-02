@@ -39,6 +39,7 @@ class CourtCaseModel(BaseModel[CourtCase]):
     gross_principal: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
     interest: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
     lawyer_fees: Mapped[Decimal] = mapped_column(Numeric(precision=18, scale=2), nullable=False)
+    content: Mapped[str] = mapped_column(nullable=True)
 
     def to_entity(self) -> CourtCase:
         """Convert the model instance to a domain entity object."""
@@ -54,6 +55,7 @@ class CourtCaseModel(BaseModel[CourtCase]):
             status=self.status,
             amount=amount,
             published_at=self.published_at,
+            content=self.content,
         )
 
     @classmethod
@@ -68,4 +70,5 @@ class CourtCaseModel(BaseModel[CourtCase]):
             gross_principal=entity.amount.gross_principal,
             interest=entity.amount.interest,
             lawyer_fees=entity.amount.lawyer_fees,
+            content=entity.content,
         )

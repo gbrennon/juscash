@@ -20,7 +20,10 @@ class SQLAlchemyCourtCaseRepository(CourtCaseRepository):
         :param court_case: The CourtCase instance to be saved.
         """
         model = CourtCaseModel.from_entity(court_case)
+        print(f"Saving court case: {court_case.case_id} to the database...")
 
         async with self.session.begin():
             self.session.add(model)
             await self.session.commit()
+
+            print(f"Saved court case: {court_case.case_id} to the database.")

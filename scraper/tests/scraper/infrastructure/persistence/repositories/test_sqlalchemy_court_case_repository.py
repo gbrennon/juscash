@@ -1,12 +1,13 @@
-import pytest
-from sqlalchemy.ext.asyncio import AsyncSession
-from scraper.infrastructure.persistence.models.court_case_model import CourtCaseModel
-from scraper.infrastructure.persistence.repositories import (
-    SQLAlchemyCourtCaseRepository
-)
-from scraper.domain.court_case import CourtCase, CourtCaseAmount, CourtCaseStatus
 from datetime import datetime
 from decimal import Decimal
+
+import pytest
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from scraper.domain.court_case import CourtCase, CourtCaseAmount, CourtCaseStatus
+from scraper.infrastructure.persistence.models.court_case_model import CourtCaseModel
+from scraper.infrastructure.persistence.repositories import SQLAlchemyCourtCaseRepository
+
 
 class TestSQLAlchemyCourtCaseRepository:
     @pytest.mark.asyncio
@@ -19,11 +20,12 @@ class TestSQLAlchemyCourtCaseRepository:
             lawyers=[],
             status=CourtCaseStatus.NEW,
             amount=CourtCaseAmount(
-                gross_principal=Decimal('1000.00'),
-                interest=Decimal('500.00'),
-                lawyer_fees=Decimal('500.00')
+                gross_principal=Decimal("1000.00"),
+                interest=Decimal("500.00"),
+                lawyer_fees=Decimal("500.00"),
             ),
-            published_at=datetime.now()
+            published_at=datetime.now(),
+            content="This is a test case content.",
         )
         repository = SQLAlchemyCourtCaseRepository(async_session)
 
@@ -36,8 +38,9 @@ class TestSQLAlchemyCourtCaseRepository:
         assert persisted_case.id == actual_id
         assert persisted_case.name == "Test Case"
         assert persisted_case.status == CourtCaseStatus.NEW
-        assert persisted_case.gross_principal == Decimal('1000.00')
-        assert persisted_case.interest == Decimal('500.00')
-        assert persisted_case.lawyer_fees == Decimal('500.00')
+        assert persisted_case.gross_principal == Decimal("1000.00")
+        assert persisted_case.interest == Decimal("500.00")
+        assert persisted_case.lawyer_fees == Decimal("500.00")
         assert persisted_case.published_at is not None
         assert persisted_case.lawyers == []
+        assert persisted_case.content == "This is a test case content."

@@ -1,6 +1,3 @@
-
-
-
 from datetime import UTC, datetime
 from decimal import Decimal
 
@@ -27,7 +24,7 @@ class TestCourtCaseModel:
             status=CourtCaseStatus.NEW,
             gross_principal=gross_principal,
             interest=interest,
-            lawyer_fees=lawyer_fees
+            lawyer_fees=lawyer_fees,
         )
 
         # Act
@@ -35,9 +32,7 @@ class TestCourtCaseModel:
 
         # Assert
         expected_court_case_amount = CourtCaseAmount(
-            gross_principal=gross_principal,
-            interest=interest,
-            lawyer_fees=lawyer_fees
+            gross_principal=gross_principal, interest=interest, lawyer_fees=lawyer_fees
         )
         assert entity.id == case_number
         assert entity.name == name
@@ -62,7 +57,8 @@ class TestCourtCaseModel:
             lawyers=lawyers,
             amount=amount,
             published_at=published_at,
-            status=CourtCaseStatus.NEW
+            status=CourtCaseStatus.NEW,
+            content="This is a test case content.",
         )
 
         # Act
@@ -72,8 +68,10 @@ class TestCourtCaseModel:
         expected_gross_principal_value = 1000
         expected_interest_value = 100
         expected_lawyer_fees_value = 50
+        expected_content_value = "This is a test case content."
         assert model.id == case_number
         assert model.name == name
         assert model.gross_principal == expected_gross_principal_value
         assert model.interest == expected_interest_value
         assert model.lawyer_fees == expected_lawyer_fees_value
+        assert model.content == expected_content_value

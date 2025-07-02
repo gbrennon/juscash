@@ -1,8 +1,8 @@
-"""Initial migration (final attempt)
+"""Case
 
-Revision ID: 8c0f5a76029a
+Revision ID: a47eadc19301
 Revises:
-Create Date: 2025-06-29 14:18:24.179825
+Create Date: 2025-07-02 08:08:49.268836
 
 """
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "8c0f5a76029a"
+revision: str = "a47eadc19301"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
@@ -34,14 +34,13 @@ def upgrade() -> None:
         ),
         sa.Column(
             "status",
-            sa.Enum(
-                "NEW", "READ", "PROCESSED", name="courtcasestatus", native_enum=False
-            ),
+            sa.Enum("NEW", "READ", "PROCESSED", name="courtcasestatus", native_enum=False),
             nullable=False,
         ),
         sa.Column("gross_principal", sa.Numeric(precision=18, scale=2), nullable=False),
         sa.Column("interest", sa.Numeric(precision=18, scale=2), nullable=False),
         sa.Column("lawyer_fees", sa.Numeric(precision=18, scale=2), nullable=False),
+        sa.Column("content", sa.String(), nullable=True),
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
@@ -53,9 +52,7 @@ def upgrade() -> None:
         sa.UniqueConstraint("id"),
     )
     op.create_index(op.f("ix_court_cases_name"), "court_cases", ["name"], unique=False)
-    op.create_index(
-        op.f("ix_court_cases_status"), "court_cases", ["status"], unique=False
-    )
+    op.create_index(op.f("ix_court_cases_status"), "court_cases", ["status"], unique=False)
     # ### end Alembic commands ###
 
 
